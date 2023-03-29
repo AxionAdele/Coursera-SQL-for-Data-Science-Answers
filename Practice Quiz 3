@@ -1,0 +1,31 @@
+1. How many albums does the artist Led Zeppelin have?
+
+select count(AlbumId) 
+from   Artists as A  left join Albums as T on T.ArtistId = A.ArtistId
+where A.Name is ('Led Zeppelin')
+
+
+2. Create a list of album titles and the unit prices for the artist "Audioslave". How many records are returned?
+
+select Title, UnitPrice 
+from Tracks as A left join Albums as B on A.AlbumId = B.AlbumId
+where B.ArtistId is 
+(select C.ArtistId from Artists as C join Albums as B on C.ArtistId = B.ArtistId
+where C.Name is ('Audioslave'))
+
+3. Find the first and last name of any customer who does not have an invoice. Are there any customers returned from the query?
+
+select FirstName, LastName 
+from Customers as C left join Invoices as I on C.CustomerId = I.CustomerId
+where I.InvoiceId is Null 
+
+4.Find the total price for each album.
+
+select sum(UnitPrice), Title as SP  
+from Tracks as T join Albums as A on T.AlbumId = A.AlbumId
+group by T.AlbumId
+
+5. How many records are created when you apply a Cartesian join to the invoice and invoice items table?
+select A.InvoiceId
+from invoices as A
+cross join invoice_items
